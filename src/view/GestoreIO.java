@@ -4,16 +4,18 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import controller.Validatore;
 import model.Dipendente;
 public class GestoreIO implements IGestoreIO{
 
+	@SuppressWarnings("resource")
 	@Override
 	public String leggiStringa(String messaggio) {
 		System.out.println(messaggio);
 		Scanner input = new Scanner(System.in);
 		return input.nextLine();
 	}
-
+	@SuppressWarnings("resource")
 	@Override
 	public int leggiIntero(String messaggio) {
 		System.out.println(messaggio);
@@ -21,7 +23,7 @@ public class GestoreIO implements IGestoreIO{
 		return Integer.parseInt(input.nextLine());
 	
 	}
-
+	@SuppressWarnings("resource")
 	@Override
 	public Double leggiDecimale(String messaggio) {
 		System.out.println(messaggio);
@@ -31,24 +33,70 @@ public class GestoreIO implements IGestoreIO{
 
 	@Override
 	public Date leggiData(String messaggio) {
+		Validatore valid = new Validatore();
 		System.out.println(messaggio);
-		Scanner input = new Scanner(System.in);
 		int giorno = leggiIntero("Inserisci il giorno: ");
-		int mese = leggiIntero("Inserisci il mese");
-		int anno = leggiIntero("Inserisci l'anno") ;
+		while(!valid.validazioneGiorno(giorno)) {
+			System.err.println("Valore del giorno non valido!");
+			giorno = leggiIntero("Inserisci il giorno: ");
+		}
+		
+		int mese = leggiIntero("Inserisci il mese: ");
+		while(!valid.validazioneMese(mese)) {
+			System.err.println("Valore del mese non valido!");
+			mese = leggiIntero("Inserisci il mese: ");
+		}
+		
+		int anno = leggiIntero("Inserisci l'anno: ");
+		while(!valid.validazioneAnno(anno)) {
+			System.err.println("Valore dell'anno non valido!");
+			anno = leggiIntero("Inserisci l'anno: ");
+		}
 		return Date.valueOf(LocalDate.of(anno, mese, giorno));
+
 	}
 
 	@Override
 	public void form(Dipendente dipendente) {
-		dipendente.id =leggiIntero("ID: ");
-		dipendente.nome = leggiStringa("Nome: ");
-		dipendente.cognome = leggiStringa("Cognome: ");
-		dipendente.cf = leggiStringa("Codice fiscale: ");
-		dipendente.citta = leggiStringa("Città: ");
-		dipendente.stipendio = leggiDecimale("Stipendio: ");
-		dipendente.anniExp = leggiIntero("Anni esperienza: ");
-		dipendente.dataNascita = leggiData("DATA DI NASCITA");
+		Validatore valid = new Validatore();
+		String nome = leggiStringa("NOME: ");
+		while(!valid.validazioneNominativi(nome, 3,12)) {
+			System.err.println("Valore del nome non valido!");
+			nome = leggiStringa("NOME: ");
+		}
+		dipendente.nome = nome;
+		
+		String cognome = leggiStringa("COGNOME: ");
+		while(!valid.validazioneNominativi(cognome, 3,12)) {
+			System.err.println("Valore del cognome non valido!");
+			cognome = leggiStringa("COGNOME: ");
+		}
+		dipendente.cognome = cognome;
+		
+		String cf = leggiStringa("CODICE FISCALE: ");
+		while(!valid.validazioneCodiceFiscale(cf)) {
+			System.err.println("Valore del codice fiscale non valido!");
+			cf = leggiStringa("CODICE FISCALE: ");
+		}
+		dipendente.cf = cf;
+		
+		dipendente.citta = leggiStringa("CITTA': ");
+		
+		Double stipendio = leggiDecimale("STIPENDIO: ");
+		while(!valid.validazioneStipendio(stipendio)) {
+			System.err.println("Valore dello stipendio non valido!");
+			stipendio = leggiDecimale("STIPENDIO:  ");
+		}
+		dipendente.stipendio = stipendio;
+		
+		int anniExp = leggiIntero("ANNI ESPERIENZA: ");
+		while(!valid.validazioneAnniExp(anniExp)) {
+			System.err.println("Valore dello stipendio non valido!");
+			anniExp = leggiIntero("ANNI ESPERIENZA: ");
+		}
+		dipendente.anniExp = anniExp;
+		
+		dipendente.dataNascita = leggiData("DATA DI NASCITA: ");
 		
 	}
 
@@ -182,7 +230,7 @@ public class GestoreIO implements IGestoreIO{
 			stampaMessaggio("Media degli anni d'esperienza: " + avgAnniExp);
 			stampaMessaggio("Media degli stipendi: " + avgStip);
 		} else {
-			stampaMessaggio("Non ci sono dipendenti con questa città");
+			stampaMessaggio("Non ci sono dipendenti con questa cittï¿½");
 		}
 		stampaMessaggio("Numero dipendenti: "+numeroDipendenti);
 		

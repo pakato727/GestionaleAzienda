@@ -35,13 +35,13 @@ public class Validatore implements IValidatore{
 
 	@Override
 	public Boolean validazioneAnniExp(int anniExp) {
-		// TODO Auto-generated method stub
-		return null;
+		String regex = "^(|[0-9]{1,2})$";
+		return (anniExp+"").matches(regex);
 	}
 
 	@Override
 	public Boolean validazioneStipendio(Double stipendio) {
-		String regex = "^([123456789][0-9][0-9][0-9]([.])[0-9]{1,2})$";
+		String regex = "^([123456789][0-9][0-9][0-9]([.])[0-9]{1,2})$"; //da 1000.0 a 9999.99
 		return (stipendio+"").matches(regex);
 	}
 	
