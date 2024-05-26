@@ -1,10 +1,10 @@
 package view;
 import java.sql.Date;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import controller.Validatore;
 import model.Dipendente;
 public class GestoreIO implements IGestoreIO{
 
@@ -32,68 +32,22 @@ public class GestoreIO implements IGestoreIO{
 
 	@Override
 	public Date leggiData(String messaggio) {
-		Validatore valid = new Validatore();
 		System.out.println(messaggio);
 		int giorno = leggiIntero("Inserisci il giorno: ");
-		while(!valid.validazioneGiorno(giorno)) {
-			System.err.println("Valore del giorno non valido!");
-			giorno = leggiIntero("Inserisci il giorno: ");
-		}
-		
 		int mese = leggiIntero("Inserisci il mese: ");
-		while(!valid.validazioneMese(mese)) {
-			System.err.println("Valore del mese non valido!");
-			mese = leggiIntero("Inserisci il mese: ");
-		}
-		
 		int anno = leggiIntero("Inserisci l'anno: ");
-		while(!valid.validazioneAnno(anno)) {
-			System.err.println("Valore dell'anno non valido!");
-			anno = leggiIntero("Inserisci l'anno: ");
-		}
 		return Date.valueOf(LocalDate.of(anno, mese, giorno));
 	}
 
 	@Override
 	public void form(Dipendente dipendente) {
-		
-		Validatore valid = new Validatore();
-		String nome = leggiStringa("NOME: ");
-		while(!valid.validazioneNominativi(nome, 3,12)) {
-			System.err.println("Valore del nome non valido!");
-			nome = leggiStringa("NOME: ");
-		}
-		dipendente.nome = nome;
-		
-		String cognome = leggiStringa("COGNOME: ");
-		while(!valid.validazioneNominativi(cognome, 3,12)) {
-			System.err.println("Valore del cognome non valido!");
-			cognome = leggiStringa("COGNOME: ");
-		}
-		dipendente.cognome = cognome;
-		
-		
-		
-		String cf = leggiStringa("CODICE FISCALE: ");
-		while(!valid.validazioneCodiceFiscale(cf)) {
-			System.err.println("Valore del codice fiscale non valido!");
-			cf = leggiStringa("CODICE FISCALE: ");
-		}
-		dipendente.cf = cf;
-		
-		
+		dipendente.nome = leggiStringa("NOME: ");
+		dipendente.cognome = leggiStringa("COGNOME: ");
+		dipendente.cf = leggiStringa("CODICE FISCALE: ");
 		dipendente.citta = leggiStringa("CITTA': ");
-		
-		Double stipendio = leggiDecimale("STIPENDIO: ");
-		while(!valid.validazioneStipendio(stipendio)) {
-			System.err.println("Valore dello stipendio non valido!");
-			cognome = leggiStringa("COGNOME: ");
-		}
-		dipendente.stipendio = stipendio;
-		
+		dipendente.stipendio = leggiDecimale("STIPENDIO: ");
 		dipendente.anniExp = leggiIntero("ANNI ESPERIENZA: ");
 		dipendente.dataNascita = leggiData("DATA DI NASCITA: ");
-		
 	}
 
 	@Override
@@ -226,7 +180,7 @@ public class GestoreIO implements IGestoreIO{
 			stampaMessaggio("Media degli anni d'esperienza: " + avgAnniExp);
 			stampaMessaggio("Media degli stipendi: " + avgStip);
 		} else {
-			stampaMessaggio("Non ci sono dipendenti con questa città");
+			stampaMessaggio("Non ci sono dipendenti con questa cittï¿½");
 		}
 		stampaMessaggio("Numero dipendenti: "+numeroDipendenti);
 		
